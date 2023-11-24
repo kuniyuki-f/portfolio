@@ -14,5 +14,8 @@
     "@astrojs/mdx": "^1.1.5",
     "astro": "^3.6.0",
     "typescript": "^5.3.2"
+  },
+  "devDependencies": {
+    "sass": "^1.69.5"
   }
 }
