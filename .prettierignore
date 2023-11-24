@@ -1,0 +1,11 @@
+package.json
+.astro/
+dist/
+.vscode/
+node_modules/
+*.config.js
+*.config.ts
+*.config.mjs
+tsconfig.json
+.prettierrc.json
+.prettirerignore
