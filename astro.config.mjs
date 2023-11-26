@@ -7,6 +7,8 @@ const __dirname = dirname(__filename);
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://kuniyuki-f.github.io',
+  base: '/portfolio',
   vite: {
     resolve: {
       alias: {
