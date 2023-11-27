@@ -1,5 +1,5 @@
 ---
-import "reset-css";
+import 'reset-css';
 
 interface Props {
   title: string;
@@ -22,3 +22,36 @@ const { title } = Astro.props;
     <slot />
   </body>
 </html>
+
+<style is:global lang="scss">
+  @font-face {
+    font-family: NotoSansJP;
+    font-weight: 400;
+    src: url('@/assets/fonts/NotoSansJP-Regular.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: NotoSansJP;
+    font-weight: 700;
+    src: url('@/assets/fonts/NotoSansJP-Bold.woff2') format('woff2');
+  }
+
+  body {
+    font-family: NotoSansJP, 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',
+      'メイリオ', Meiryo, 'ＭＳ ゴシック', sans-serif;
+    color: map-get($colors, 'black');
+    background: url('../assets/images/background.webp');
+    background-color: rgb(0 0 0 / 30%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
+    background-blend-mode: overlay;
+  }
+
+  * {
+    box-sizing: border-box;
+    line-height: 1.5em !important;
+    letter-spacing: 0.1em !important;
+  }
+</style>

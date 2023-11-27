@@ -7,5 +7,6 @@ module.exports = {
   ],
   rules: {
     'scss/at-rule-no-unknown': [true],
+    'scss/no-global-function-names': [null],
   },
 };
