@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets';
+import logo from './footer_logo.webp';
+
+const links = [
+  { href: 'works', text: '制作実績' },
+  { href: 'profile', text: '自己紹介' },
+  { href: 'blog', text: 'ブログ' },
+  { href: 'contact', text: 'お問い合わせ' },
+];
+
+const thisYear = new Date().getFullYear();
+
+const copyright = `© 2021 - ${thisYear}  Swing All Rights Reserved.`;
+---
+
+<footer>
+  <figure class="logo">
+    <a href="/portfolio">
+      <Image src={logo} alt="logo" />
+    </a>
+  </figure>
+  <ul class="links">
+    {
+      links.map((link) => {
+        return (
+          <li>
+            <a href={`/portfolio/${link.href}`}>{link.text}</a>
+          </li>
+        );
+      })
+    }
+  </ul>
+  <p class="privacy">
+    <a href="/privacy-policy">プライバシーポリシー</a>
+  </p>
+  <p class="copyright">
+    {copyright}
+  </p>
+</footer>
+
+<style lang="scss">
+  footer {
+    background-color: map-get($colors, 'brown');
+  }
+
+  a {
+    color: map_get($colors, 'white');
+    text-decoration: none;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+
+    & > img {
+      max-width: 15rem;
+      height: auto;
+    }
+  }
+
+  .links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+
+    @media (width <= 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .privacy {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+  }
+
+  .copyright {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    font-size: 0.8rem;
+    color: map_get($colors, 'white');
+  }
+</style>
