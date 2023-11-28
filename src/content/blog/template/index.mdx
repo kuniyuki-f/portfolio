@@ -1,0 +1,83 @@
+---
+isDraft: false
+description: '概要'
+title: 'テンプレート'
+coverImage: { src: '@/assets/images//background.webp', alt: 'カバー画像' }
+category: 'カテゴリ'
+tags: ['タグ']
+createdAt: '2023/11/11'
+updatedAt: '2023/11/11'
+---
+
+import { Image } from 'astro:assets';
+import image from './sample.webp';
+
+# {frontmatter.title}
+
+# 1. 見出し（Headers）
+
+# 最大見出し
+
+## サブ見出し
+
+### 小見出し
+
+#### 小さな見出し
+
+##### さらに小さな見出し
+
+###### 最小見出し
+
+# 2. 強調 (Emphasis)
+
+_斜体_
+_斜体_
+**太字**
+**太字**
+**太字と*斜体*の混在**
+
+# 3. リスト (Lists)
+
+## 番号付きリスト
+
+1. 最初のアイテム
+2. 次のアイテム
+3. 三番目のアイテム
+
+## 箇条書きリスト
+
+- リストアイテム1
+- リストアイテム2
+  - サブアイテム
+- リストアイテム3
+
+# 4. リンク (Links)
+
+[Google](https://www.google.com)
+
+# 5. 画像 (Images)
+
+## Imageコンポーネントを利用
+
+<Image src={image} alt="イメージ" width="300" />
+
+## マークダウン記法を利用
+
+![代替テキスト](https://dummyimage.com/600x400/000/fff)
+
+# 6. 引用 (Blockquotes)
+
+> 引用文  
+> これは引用セクションです。
+
+# 7. コード (Code)
+
+## インラインコード
+
+`コード`
+
+## コードブロック
+
+```
+ここにコードを書きます
+```
