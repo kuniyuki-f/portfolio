@@ -18,6 +18,24 @@ const blogCollection = defineCollection({
     }),
 });
 
+const worksCollection = defineCollection({
+  type: 'content',
+  schema: ({ image }) =>
+    z.object({
+      isDraft: z.boolean(),
+      title: z.string(),
+      description: z.string(),
+      coverImage: z.object({
+        src: image(),
+        alt: z.string(),
+      }),
+      externalLink: z.string().url(),
+      createdAt: z.coerce.date(),
+      updatedAt: z.coerce.date(),
+    }),
+});
+
 export const collections = {
   blog: blogCollection,
+  works: worksCollection,
 };
