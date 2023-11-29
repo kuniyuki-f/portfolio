@@ -1,0 +1,104 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+type Props = {
+  headings: MarkdownHeading[];
+};
+
+const { headings } = Astro.props;
+console.dir(headings, { depth: null });
+---
+
+<script>
+  const toggleButton = document.querySelector(
+    '.js-slide-toggle',
+  ) as HTMLElement;
+  const toc = document.querySelector('ol') as HTMLElement;
+
+  if (!toggleButton || !toc) throw new Error('toggleButton or toc not found');
+
+  document.addEventListener('DOMContentLoaded', () => {
+    toc.style.height = `${toc.scrollHeight}px`;
+  });
+
+  toggleButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const isOpen = toc.classList.toggle('is-open');
+
+    toggleButton.textContent = toc.classList.contains('is-open')
+      ? '非表示'
+      : '表示';
+
+    toc.style.height = isOpen ? `${toc.scrollHeight}px` : '0';
+  });
+</script>
+
+<div class="toc">
+  <p class="toc__title">目次 [<a class="js-slide-toggle">非表示</a>]</p>
+  <ol class="is-open">
+    {
+      headings
+        .filter((h) => h.depth < 3)
+        .map((h, i) => {
+          return (
+            <li class={`toc-level-${h.depth} toc-item`}>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          );
+        })
+    }
+  </ol>
+</div>
+
+<style lang="scss">
+  .toc {
+    padding: 0.75rem;
+    background-color: #fff;
+    border: 1px solid #aaa;
+
+    &__title {
+      padding: 0;
+      margin: 0;
+      font-weight: bolder;
+
+      a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+
+  ol {
+    margin: 0;
+    overflow: hidden;
+    list-style: none;
+    counter-reset: section;
+    transition: height 0.5s ease-in-out;
+  }
+
+  .toc-item {
+    counter-increment: section;
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    &.toc-level-1 {
+      margin-left: 1rem;
+      counter-reset: subsection;
+
+      a::before {
+        content: counters(section, '.') '. ';
+      }
+    }
+
+    &.toc-level-2 {
+      margin-left: 2.5rem;
+      counter-increment: subsection;
+
+      a::before {
+        content: counters(section, '.') '-' counters(subsection, '.') '. ';
+      }
+    }
+  }
+</style>
