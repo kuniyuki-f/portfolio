@@ -1,0 +1,48 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import TOC from './_components/TOC/index.astro';
+import Title from './_components/Title/index.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content, headings } = await post.render();
+---
+
+<Layout title="ブログ">
+  <main>
+    <Title
+      title={post.data.title}
+      createdAt={post.data.createdAt}
+      updatedAt={post.data.updatedAt}
+      category={post.data.category}
+      tags={post.data.tags}
+    />
+    <div class="content-wrapper">
+      <div class="content">
+        <TOC headings={headings} />
+        <Content />
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style is:global lang="scss">
+  .content-wrapper {
+    padding: 2rem 4rem;
+    background-color: map-get($colors, 'white');
+
+    @media screen and (width <= 768px) {
+      padding: 1rem 2rem;
+    }
+  }
+</style>
