@@ -13,24 +13,13 @@ const { title, createdAt, updatedAt, category, tags } = Astro.props;
 <div class="container">
   <h2 class="title">{title}</h2>
 
-  <p class="date">
-    <time datetime={createdAt.toLocaleDateString()}>
-      作成日:{createdAt.toLocaleDateString()}
-    </time>
-    <time datetime={updatedAt.toLocaleDateString()}>
-      更新日:{updatedAt.toLocaleDateString()}
-    </time>
-  </p>
-
-  <p class="category">
-    カテゴリー:<a href={`/portfolio/posts/category/${category}`}>
-      {category}
-    </a>
-  </p>
-
-  <ul class="tags">
-    <p>タグ一覧</p>
+  <ul class="category-and-tags">
     <div class="items">
+      <li>
+        <a href={`/portfolio/posts/category/${category}`}>
+          {category}
+        </a>
+      </li>
       {
         tags.map((tag) => (
           <li>
@@ -40,48 +29,69 @@ const { title, createdAt, updatedAt, category, tags } = Astro.props;
       }
     </div>
   </ul>
+
+  <p class="date">
+    <time datetime={createdAt.toLocaleDateString()}>
+      <span> 公開日：</span>
+      <span>
+        {createdAt.toLocaleDateString()}
+      </span>
+    </time>
+    <time datetime={updatedAt.toLocaleDateString()}>
+      <span> 最終更新日：</span>
+      <span>
+        {updatedAt.toLocaleDateString()}
+      </span>
+    </time>
+  </p>
 </div>
 
 <style lang="scss">
   .container {
-    padding: 5rem 1rem;
+    padding: 4rem 1rem;
     color: map-get($colors, 'white');
     text-align: center;
-    background-color: rgba(map-get($colors, 'black'), 0.7);
+    background-color: rgb(0 0 0 / 70%);
     @media screen and (width <= 768px) {
       padding: 3rem 1rem;
     }
   }
 
   .title {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     @media screen and (width <= 768px) {
-      font-size: 1rem;
+      font-size: 1.5rem;
     }
   }
 
   .date {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin: 0.5rem;
     font-size: 0.75rem;
+
+    time {
+      display: grid;
+      grid-template-columns: 7em 10em;
+      justify-content: center;
+      width: 100%;
+
+      span:first-child {
+        text-align: right;
+      }
+    }
   }
 
-  .category {
-    margin: 0.5rem;
-    font-size: 0.875rem;
-  }
-
-  .tags {
-    max-width: 300px;
+  .category-and-tags {
+    max-width: 320px;
     margin: 0.5rem auto;
     font-size: 0.875rem;
 
     .items {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(6em, auto));
+      column-gap: 0.5rem;
       justify-content: center;
     }
   }
