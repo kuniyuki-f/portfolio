@@ -2,4 +2,123 @@
 import Layout from '@/layouts/Layout.astro';
 ---
 
-<Layout title="Welcome to Astro." />
+<Layout title="トップページ">
+  <main class="main-top">
+    <h2 class="title">
+      使えば使うほど好きになる<br />
+       素敵なWEBサイトを制作します
+    </h2>
+
+    <section class="service-section">
+      <h3>
+        Service
+        <span>WEBサイト制作</span>
+      </h3>
+
+      <ul>
+        <li class="material-icons">brush</li>
+        <li class="material-icons">code</li>
+        <li class="material-icons">devices</li>
+      </ul>
+      <p>
+        サーバーの設定からWEBサイトの公開までワンストップで対応いたします。<br
+        />
+         納品後のサポート付きなのでWEBサイトの運営が不安な方も、
+        安心してお任せいただけます。<br />
+         ブログやイラスト等を投稿できるオウンドメディア、SEOに強いホームページなど、ご要望に応じて様々なサイトを制作いたします。
+      </p>
+    </section>
+
+    <section class="works-section">
+      <h3>Works</h3>
+      <ul>
+        <li>実績</li>
+      </ul>
+    </section>
+
+    <section class="blog-section">
+      <h3>Blog</h3>
+
+      <ul>
+        <li>ブログ</li>
+      </ul>
+    </section>
+  </main>
+</Layout>
+
+<style lang="scss">
+  .main-top {
+    .title {
+      padding: 4rem 1rem;
+      margin: 15rem auto;
+      font-size: clamp(1rem, 5vw, 2rem);
+      font-weight: bolder;
+      line-height: 1.5em;
+      text-align: center;
+      background: rgba(map-get($colors, 'white'), 0.8);
+    }
+
+    /* セクション共通スタイル */
+    section {
+      padding: 3rem 1rem;
+      margin-top: 15rem;
+      background-color: map-get($colors, 'white');
+
+      h3 {
+        display: grid;
+        font-size: 3rem;
+        font-weight: bolder;
+        text-align: center;
+
+        span {
+          font-size: 2rem;
+        }
+
+        @media screen and (width <= 768px) {
+          font-size: 2rem;
+
+          span {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    .service-section {
+      ul {
+        display: flex;
+        gap: 3rem;
+        justify-content: center;
+        margin-top: clamp(0px, 5vw, 1rem);
+
+        li {
+          font-size: 5rem;
+          @media screen and (width <= 768px) {
+            font-size: 3rem;
+          }
+        }
+      }
+
+      p {
+        max-width: 90rem;
+        padding: 0 1rem;
+        margin: 1rem auto;
+        margin-top: clamp(0px, 5vw, 1rem);
+        font-size: clamp(1rem, 4vw, 1.25rem);
+      }
+    }
+
+    .works-section,
+    .blog-section {
+      ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        gap: 3rem;
+        justify-content: center;
+        justify-items: center;
+        max-width: 1280px;
+        margin: 1rem auto;
+      }
+    }
+  }
+</style>
