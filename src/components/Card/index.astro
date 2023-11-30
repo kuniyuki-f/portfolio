@@ -1,9 +1,11 @@
 ---
-import image from '@/assets/images/background.webp';
 import { Image } from 'astro:assets';
+import image from '@/assets/images/background.webp';
+import type { MdxImage } from './thumbnailType';
+import { isMdxImage } from './thumbnailType';
 
 interface Props {
-  thumbnail?: string;
+  thumbnail?: string | MdxImage;
   title: string;
   href: string;
   date?: string;
@@ -20,17 +22,19 @@ const tag = category || tags?.[0];
 <li class="card">
   <a href={href}>
     <figure class="thumbnail">
+      {thumbnail === undefined && <Image src={image} alt="thumbnail" />}
       {
-        thumbnail === undefined ? (
-          <Image src={image} alt="thumbnail" />
-        ) : (
+        thumbnail && typeof thumbnail === 'string' && (
           <Image src={thumbnail} alt="thumbnail" width={320} height={180} />
         )
       }
+      {
+        thumbnail && isMdxImage(thumbnail) && (
+          <Image src={thumbnail} alt="thumbnail" />
+        )
+      }
     </figure>
-    <p class="title">
-      {title}
-    </p>
+    <p class="title">{title}</p>
     <div class="meta">
       <time datetime={date}>{date}</time>
       {tag && <span>{tag}</span>}
@@ -44,6 +48,7 @@ const tag = category || tags?.[0];
     width: 320px;
     height: 180px;
     overflow: hidden;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
 
     & > img {
       width: 100%;
