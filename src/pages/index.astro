@@ -1,5 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import Card from '@/components/Card/index.astro';
 ---
 
 <Layout title="トップページ">
@@ -32,15 +33,41 @@ import Layout from '@/layouts/Layout.astro';
     <section class="works-section">
       <h3>Works</h3>
       <ul>
-        <li>実績</li>
+        <Card title="タイトル" href="/" />
+        <Card title="タイトル" href="/" />
+        <Card title="タイトル" href="/" />
       </ul>
     </section>
 
     <section class="blog-section">
       <h3>Blog</h3>
-
       <ul>
-        <li>ブログ</li>
+        <Card
+          title="タイトル"
+          href="/"
+          date="2021-01-01"
+          category="WEB制作"
+          tags={['HTML', 'CSS', 'JavaScript']}
+          excerpt="抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋"
+        />
+        <Card
+          thumbnail="https://source.unsplash.com/random/400x400"
+          title="タイトル"
+          href="/"
+          date="2021-01-01"
+          category="WEB制作"
+          tags={['HTML', 'CSS', 'JavaScript']}
+          excerpt="抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋"
+        />
+        <Card
+          thumbnail="https://source.unsplash.com/random/400x400"
+          title="タイトル"
+          href="/"
+          date="2021-01-01"
+          category="WEB制作"
+          tags={['HTML', 'CSS', 'JavaScript']}
+          excerpt="抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋"
+        />
       </ul>
     </section>
   </main>
