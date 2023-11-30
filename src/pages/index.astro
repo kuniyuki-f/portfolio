@@ -1,6 +1,12 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/Card/index.astro';
+
+import { getCollection } from 'astro:content';
+
+const allWorks = await getCollection('works', ({ data }) => {
+  return data.isDraft !== true;
+});
 ---
 
 <Layout title="トップページ">
@@ -33,9 +39,24 @@ import Card from '@/components/Card/index.astro';
     <section class="works-section">
       <h3>Works</h3>
       <ul>
-        <Card title="タイトル" href="/" />
-        <Card title="タイトル" href="/" />
-        <Card title="タイトル" href="/" />
+        {
+          allWorks
+            .sort((a, b) => {
+              const dateA = new Date(a.data.createdAt);
+              const dateB = new Date(b.data.createdAt);
+              return dateB.getTime() - dateA.getTime();
+            })
+            .slice(0, 3)
+            .map((work) => {
+              return (
+                <Card
+                  title={work.data.title}
+                  href={work.data.externalLink}
+                  thumbnail={work.data.coverImage.src}
+                />
+              );
+            })
+        }
       </ul>
     </section>
 
