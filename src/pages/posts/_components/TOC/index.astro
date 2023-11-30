@@ -52,7 +52,9 @@ console.dir(headings, { depth: null });
 
 <style lang="scss">
   .toc {
+    max-width: 1280px;
     padding: 0.75rem;
+    margin: auto;
     background-color: #fff;
     border: 1px solid #aaa;
 
@@ -60,11 +62,16 @@ console.dir(headings, { depth: null });
       padding: 0;
       margin: 0;
       font-weight: bolder;
+    }
+  }
 
-      a:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
+  a {
+    color: map-get($colors, 'green');
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
     }
   }
 
