@@ -1,0 +1,173 @@
+---
+isDraft: false
+description: 'これから少しずつコンテンツを増やしていきたいと思います。'
+title: 'チェックボックス IN セレクトボックスなUIの実装方法'
+coverImage: { src: '@/assets/images//background.webp', alt: 'カバー画像' }
+category: '日記'
+tags: []
+createdAt: '2021/10/8'
+updatedAt: '2021/10/8'
+---
+
+# チェックボックス IN セレクトボックスなUIの実装方法
+
+ホームページを作っていると、たまにチェックボックスがセレクトボックスの中に入っているようなUIのデザインを見かけます。
+しかしHTMLの仕様上、select要素の中でinput要素は使えません。
+
+チェックボックスはinput要素で実装するので、HTMLだけではチェックボックスがセレクトボックスの中に入っているようなUIは実装できません。
+
+私もそのようなUIを実装しようとした際にかなり悩み、jQueryで解決できたので、その実装方法を記録しておきたいと思います。
+
+もっといい実装方法をご存じの方がいらっしゃったら、[Twitter](https://twitter.com/swing_web)などでご教示頂けると大変助かります！
+
+## 結論：jQueryのslideToggleを使う
+
+とにかく実装方法だけ知りたい！という方のために、先にソースコードを掲載しておきます。  
+jQueryのslideToggleを使います。
+
+<p
+  class="codepen"
+  data-height="300"
+  data-default-tab="html,result"
+  data-slug-hash="RwgmPPG"
+  data-editable="true"
+  data-user="c501306014"
+  style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
+></p>
+<script
+  async=""
+  src="https://cpwebassets.codepen.io/assets/embed/ei.js"
+></script>
+
+slideToggleは、対象要素の表示・非表示をスライドアニメーションで切り替えてくれます。  
+これを利用して目的のUIを実装します。
+
+もし、デフォルトで対象要素を非表示にしておきたい場合は、その要素に対してCSSでdisplay: none;を指定しておきます。  
+この時、slideToggleで表示する要素のdisplayは、値がblockになります。その値をflexにしたい場合は、jQueryの記述も追加する必要があります。  
+※本記事のデモも、対象要素をdisplay: flex;にしたいので、jQueryへの追記が必要です。
+
+本記事のデモをデフォルトで対象要素が非表示になるように書き換えたCSSとjQueryを以下に掲載します。
+
+```css title="CSS" showLineNumbers
+/* チェックボックスの表示切替ボタン */
+.checkbox-toggle {
+  max-width: 362px;
+  padding: 1em;
+  text-align: center;
+  cursor: pointer;
+  background-color: skyblue;
+}
+
+/* チェックボックス */
+.checkboxes {
+  /* displayプロパティをflexからnoneに書き換え */
+  display: none;
+  flex-direction: column;
+  width: 360px;
+  padding: 1em;
+  border: 1px solid skyblue;
+}
+```
+
+```javascript title="jQuery" showLineNumbers
+jQuery(function () {
+  jQuery('.checkbox-toggle').on('click', function () {
+    jQuery('.checkboxes').slideToggle();
+    // チェックボックスのスタイルにdisplay: flex;を付与する処理を追加
+    jQuery('.checkboxes').css('display', 'flex');
+  });
+});
+```
+
+それぞれ冒頭に載せたcodePenのソースコードへ丸ごと上書きコピペすれば動きますので、是非お試しください。
+
+## ソースコードの説明
+
+それでは、HTML・CSS・JSの各コードを説明します。
+
+### HTML
+
+form要素の中身を抜粋します。
+※head要素内でjQueryの読み込みを忘れずに記述しておいてください。
+
+```html title="HTML" showLineNumbers
+<form>
+  <!--   チェックボックスの表示切替ボタン   -->
+  <div class="checkbox-toggle">ここをクリックまたはタップで開閉します</div>
+  <!--   チェックボックス   -->
+  <div class="checkboxes">
+    選択してください
+    <label>
+      <input type="checkbox" />
+      <span>checkbox1</span>
+    </label>
+    <label>
+      <input type="checkbox" />
+      <span>checkbox2</span>
+    </label>
+  </div>
+</form>
+```
+
+今回jQueryで操作するのは下記２つのdiv要素です。それぞれのクラス名は、以下の通りです。
+
+- チェックボックスの表示切替ボタン：checkbox-toggle
+- チェックボックスの入れ物：checkboxes
+
+### CSS
+
+今回特筆すべき点はありません。シンプルに色を付けたり、枠線を付けたりしています。
+
+```css title="CSS" showLineNumbers
+/* チェックボックスの表示切替ボタン */
+.checkbox-toggle {
+  max-width: 362px;
+  padding: 1em;
+  text-align: center;
+  cursor: pointer;
+  background-color: skyblue;
+}
+
+/* チェックボックス */
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  padding: 1em;
+  border: 1px solid skyblue;
+}
+```
+
+### JavaScript
+
+jQueryの記述内容を説明します。全部でたったの５行（コメント除く）です。  
+※コード内の”jQuery”と記述している箇所は、”$”でも動きます。ただし、WordPressなどの環境によっては動かない場合があるので、”jQuery”で統一しています。
+
+```js title="jQuery" showLineNumbers
+jQuery(function () {
+  // チェックボックスの表示切替ボタンのクリックイベントを検知
+  jQuery('.checkbox-toggle').on('click', function () {
+    // チェックボックスの表示をslideToggleで切り替える
+    jQuery('.checkboxes').slideToggle();
+  });
+});
+```
+
+上記ソースコードは、それぞれ下記のような意味があります。
+
+- 1行目：HTMLの読み込みが終わったら処理を実行
+- 3行目：チェックボックスの表示切替ボタン（クラス名checkbox-toggle）がクリックされたら処理を実行
+- 5行目：チェックボックスの入れ物（クラス名checkboxes）の表示・非表示をアニメーションで切替
+
+### まとめ
+
+jQueryを使ってチェックボックスをセレクトボックス内に入れる方法を説明しました。  
+slideToggleを使えば簡単に実装できますね。
+
+slideToggleは要素の表示・非表示をスライドアニメーションで切り替えているだけなので、厳密にいえばセレクトボックスではないのですが、これで本題のようなデザインの動きを再現するUIは実装できます。  
+slideToggleはアコーディオンメニューの実装などにも使えますので、気になる方は是非検索してみてください。
+
+本記事は以上です。  
+最後まで読んでくださり、ありがとうございました！  
+今後の活動のために、もし誤情報などございましたら[お問い合わせフォーム](/portfolio/contact)または[Twitter](https://twitter.com/swing_web)にてお知らせいただければ幸いです。  
+また、コーディングに関するご質問なども受け付けておりますので、お気軽にご連絡ください！
