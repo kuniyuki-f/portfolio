@@ -7,6 +7,9 @@ import { getCollection } from 'astro:content';
 const allWorks = await getCollection('works', ({ data }) => {
   return data.isDraft !== true;
 });
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.isDraft !== true;
+});
 ---
 
 <Layout title="トップページ">
@@ -63,32 +66,27 @@ const allWorks = await getCollection('works', ({ data }) => {
     <section class="blog-section">
       <h3>Blog</h3>
       <ul>
-        <Card
-          title="タイトル"
-          href="/"
-          date="2021-01-01"
-          category="WEB制作"
-          tags={['HTML', 'CSS', 'JavaScript']}
-          excerpt="抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋"
-        />
-        <Card
-          thumbnail="https://source.unsplash.com/random/400x400"
-          title="タイトル"
-          href="/"
-          date="2021-01-01"
-          category="WEB制作"
-          tags={['HTML', 'CSS', 'JavaScript']}
-          excerpt="抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋"
-        />
-        <Card
-          thumbnail="https://source.unsplash.com/random/400x400"
-          title="タイトル"
-          href="/"
-          date="2021-01-01"
-          category="WEB制作"
-          tags={['HTML', 'CSS', 'JavaScript']}
-          excerpt="抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋抜粋"
-        />
+        {
+          allPosts
+            .sort((a, b) => {
+              const dateA = new Date(a.data.updatedAt);
+              const dateB = new Date(b.data.updatedAt);
+              return dateB.getTime() - dateA.getTime();
+            })
+            .slice(0, 3)
+            .map((post) => {
+              return (
+                <Card
+                  title={post.data.title}
+                  href={`portfolio/posts/${post.slug}`}
+                  thumbnail={post.data.coverImage.src}
+                  date={post.data.createdAt.toLocaleDateString()}
+                  category={post.data.category}
+                  tags={post.data.tags}
+                />
+              );
+            })
+        }
       </ul>
     </section>
   </main>
