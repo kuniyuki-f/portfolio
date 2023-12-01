@@ -17,6 +17,8 @@ interface Props {
 const { thumbnail, title, href, date, category, tags, excerpt } = Astro.props;
 
 const tag = category || tags?.[0];
+// title に含まれるHTMLタグを削除
+const titleText = title.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ' ');
 ---
 
 <li class="card">
@@ -34,7 +36,7 @@ const tag = category || tags?.[0];
         )
       }
     </figure>
-    <p class="title">{title}</p>
+    <p class="title">{titleText}</p>
     <div class="meta">
       <time datetime={date}>{date}</time>
       {tag && <span>{tag}</span>}
