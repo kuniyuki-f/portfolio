@@ -18,6 +18,30 @@ const post = Astro.props;
 const { Content, headings } = await post.render();
 ---
 
+<script>
+  const codeBlock = document.querySelectorAll(
+    'div[data-rehype-pretty-code-fragment]',
+  );
+  // 各codeBlockにコピーボタンを追加し、クリックしたらクリップボードにコードをコピーする
+  codeBlock.forEach((block) => {
+    const button = document.createElement('button');
+    button.textContent = 'Copy';
+    button.classList.add('copy-button');
+    button.addEventListener('click', () => {
+      const code = block.querySelector('code');
+      code !== null &&
+        code.textContent !== null &&
+        navigator.clipboard.writeText(code.textContent);
+      button.textContent = 'Copied!';
+      setTimeout(() => {
+        button.textContent = 'Copy';
+      }, 5000);
+    });
+
+    block.appendChild(button);
+  });
+</script>
+
 <Layout title="ブログ">
   <main>
     <Title
@@ -37,6 +61,8 @@ const { Content, headings } = await post.render();
 </Layout>
 
 <style is:global lang="scss">
+  $code-block-theme-color: #292d3e;
+
   .content-wrapper {
     padding: 2rem 4rem;
     background-color: map-get($colors, 'white');
@@ -49,6 +75,11 @@ const { Content, headings } = await post.render();
   .content {
     max-width: 1280px;
     margin: 0 auto;
+
+    p {
+      padding: 0 0.5em;
+      margin: 1em 0;
+    }
 
     // 見出し
     h1,
@@ -170,13 +201,95 @@ const { Content, headings } = await post.render();
 
     // コード
     code {
-      padding: 0.2em 0.4em;
+      display: grid;
+      padding: 1.5rem 0;
+      overflow-x: auto;
+      font-size: 0.85em;
+      border-radius: 0.5rem;
+
+      .line {
+        padding: 0 0.5rem;
+        border-left: 0.5rem solid transparent;
+
+        &::before {
+          display: inline-block;
+          width: 1rem;
+          text-align: right;
+          content: '';
+        }
+      }
+
+      .highlighted {
+        background-color: lighten($code-block-theme-color, 10%);
+        border-color: lighten($code-block-theme-color, 50%);
+      }
+
+      &[data-line-numbers] {
+        counter-reset: line;
+
+        > .line::before {
+          display: inline-block;
+          width: 1rem;
+          margin-right: 2rem;
+          color: #7ca2dfad;
+          text-align: left;
+          content: counter(line);
+          counter-increment: line;
+        }
+      }
+
+      &[data-line-numbers-max-digits='2'] {
+        > .line::before {
+          width: 2rem;
+        }
+      }
+
+      &[data-line-numbers-max-digits='3'] {
+        > .line::before {
+          width: 3rem;
+        }
+      }
     }
 
     pre {
       padding: 0.5em 1em;
       margin: 1em 0;
       border-radius: 0.3em;
+    }
+
+    [data-rehype-pretty-code-fragment] {
+      position: relative;
+      margin: 3rem auto;
+
+      .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 6rem;
+        padding: 0 1rem;
+        color: map-get($colors, 'white');
+        background-color: darken($code-block-theme-color, 10%);
+        border-radius: 0.3rem;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        &:active {
+          background-color: lighten($code-block-theme-color, 10%);
+        }
+      }
+    }
+
+    [data-rehype-pretty-code-title] {
+      position: absolute;
+      top: -1.75rem;
+      left: 0;
+      padding: 0.25rem 1rem;
+      color: lighten($code-block-theme-color, 60%);
+      background-color: $code-block-theme-color;
+      border-top-left-radius: 0.3rem;
+      border-top-right-radius: 0.3rem;
     }
   }
 </style>
