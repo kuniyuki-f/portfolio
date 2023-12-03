@@ -1,5 +1,110 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
+import profileImage from './_me.webp';
 ---
 
-<Layout title="Welcome to Astro." />
+<Layout title="profile">
+  <main>
+    <section>
+      <h1>Profile</h1>
+      <figure>
+        <Image src={profileImage} alt="profile image" />
+        <figcaption>kuniyuki</figcaption>
+      </figure>
+      <p>
+        大阪府でWEB制作フリーランスをしております。<br />
+         フリーランスコミュニティ<a href="https://commew.net/">commew</a>
+         に所属しています。
+      </p>
+       X(旧Twitter):<a href="https://twitter.com/swing_web">@swing_web</a>
+
+      <p>
+        ■趣味<br />
+         ジャズ、ドラム演奏、ゲーム、読書、プログラミングが好きです。<br />
+         Swingという屋号はジャズに由来しています。<br />
+         お仕事以外の話題でもTwitterなどで絡んでもらえると嬉しいです。
+      </p>
+
+      <p>
+        ■好きな言語<br />
+         PHP・Python・Javascriptなど
+      </p>
+
+      <dl>
+        <dt>名称</dt>
+        <dd>WEB工房 Swing</dd>
+        <dt>所在地</dt>
+        <dd>羽曳野市内</dd>
+        <dt>お問い合わせ</dt>
+        <dd>
+          <a href="https://web-studio-swing.com/contact/">フォーム</a>又は<a
+            href="https://twitter.com/messages/compose?recipient_id=799473904951492608"
+          >
+            X(旧Twitter) DM
+          </a>にて承ります
+        </dd>
+      </dl>
+    </section>
+  </main>
+</Layout>
+
+<style lang="scss">
+  main {
+    background-color: map-get($colors, 'white');
+
+    section {
+      max-width: 600px;
+      padding: 2rem;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    figure {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 10rem;
+      padding: 0;
+      margin: 0 auto 1rem;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      figcaption {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    p {
+      margin: 1rem auto;
+    }
+
+    dl {
+      margin: 1rem auto;
+
+      dt {
+        margin-top: 1rem;
+        font-weight: bold;
+      }
+
+      dd {
+        padding-left: 1em;
+      }
+    }
+
+    a {
+      color: map-get($colors, 'green');
+    }
+  }
+</style>
