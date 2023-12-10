@@ -2,4 +2,49 @@
 import Layout from '@/layouts/Layout.astro';
 ---
 
-<Layout title="Welcome to Astro." />
+<Layout title="Contact">
+  <main>
+    <section>
+      <h1>Contact</h1>
+
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSf8H8mBupU53nRWj7rf_8vNIks7vFOthK6T64ynSy_S-VPlag/viewform?embedded=true"
+      >
+        読み込んでいます…
+      </iframe>
+    </section>
+  </main>
+</Layout>
+
+<style lang="scss">
+  main {
+    background-color: map-get($colors, 'white');
+  }
+
+  section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 2rem 1rem;
+    margin: 0 auto;
+  }
+
+  h1{
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  iframe {
+    width: 100%;
+    min-height: 1500px;
+
+    @media (width > 768px) {
+      min-height: 1200px;
+    }
+  }
+
+</style>
