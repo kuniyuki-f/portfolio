@@ -1,5 +1,78 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import Card from '@/components/Card/index.astro';
+import { getCollection } from 'astro:content';
+
+const allWorks = await getCollection('works', ({ data }) => {
+  return data.isDraft !== true;
+});
 ---
 
-<Layout title="Welcome to Astro." />
+<Layout title="WEB工房Swiing | 実績一覧">
+  <main>
+    <section>
+      <h1>Works</h1>
+      <p>制作実績を公開しています。</p>
+      <p>
+        非公開の案件でも、これまで10件以上の
+        <br /> WEB制作・システム保守案件に携わってまいりました。
+      </p>
+      <p>
+        ※下記コンテンツをクリックまたはタップすると
+        <br />別タブでページが開きます。
+      </p>
+
+      <section class="works-section">
+        <ul class="cards">
+          {
+            allWorks
+              .sort((a, b) => {
+                const dateA = new Date(a.data.createdAt);
+                const dateB = new Date(b.data.createdAt);
+                return dateB.getTime() - dateA.getTime();
+              })
+              .map((work) => {
+                return (
+                  <Card
+                    title={work.data.title}
+                    href={work.data.externalLink}
+                    thumbnail={work.data.coverImage.src}
+                    excerpt={work.data.description}
+                  />
+                );
+              })
+          }
+        </ul>
+      </section>
+    </section>
+  </main>
+</Layout>
+
+<style lang="scss">
+  main {
+    background-color: map-get($colors, 'white');
+
+    section {
+      max-width: 600px;
+      padding: 2rem;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    p {
+      margin: 1rem auto;
+      text-align: center;
+    }
+
+    .cards {
+      display: grid;
+      justify-content: center;
+    }
+  }
+</style>
