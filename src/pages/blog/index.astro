@@ -1,5 +1,71 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import Card from '@/components/Card/index.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.isDraft !== true;
+});
 ---
 
-<Layout title="Welcome to Astro." />
+<Layout title="ブログ一覧">
+  <main>
+    <section>
+      <h1>Blog</h1>
+      <ul class="cards">
+        {
+          allPosts
+            .sort((a, b) => {
+              const dateA = new Date(a.data.updatedAt);
+              const dateB = new Date(b.data.updatedAt);
+              return dateB.getTime() - dateA.getTime();
+            })
+            .map((post) => {
+              return (
+                <Card
+                  title={post.data.title}
+                  href={`/portfolio/posts/${post.slug}`}
+                  thumbnail={post.data.coverImage.src}
+                  date={post.data.createdAt.toLocaleDateString()}
+                  category={post.data.category}
+                  tags={post.data.tags}
+                  excerpt={post.data.description}
+                />
+              );
+            })
+        }
+      </ul>
+    </section>
+  </main>
+</Layout>
+
+<style lang="scss">
+  main {
+    background-color: map-get($colors, 'white');
+
+    section {
+      max-width: 1200px;
+      min-height: 100vh;
+      padding: 2rem 0;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    p {
+      margin: 1rem auto;
+      text-align: center;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      justify-items: center;
+    }
+  }
+</style>
